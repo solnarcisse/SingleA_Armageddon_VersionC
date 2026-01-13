@@ -1,0 +1,126 @@
+<!-- Expected output: This page should allow the user to add tasks to a to‑do list and mark them as completed. Completed tasks should be styled differently, and the user can also clear completed tasks. -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To‑Do List</title>
+    <style>
+    body { font-family: sans-serif; }
+    ul { list-style: none; padding: 0; }
+    li { padding: 5px; border-bottom: 1px solid #ddd; }
+    .completed { text-decoration: line-through; color: gray; }
+    </style>
+</head>
+<body>
+    <h1>To‑Do List</h1>
+    <input type="text" id="taskInput" placeholder="Enter a new task">
+    <button onclick="addTask()">Add Task</button>
+    <button onclick="clearCompleted()">Clear Completed</button>
+    <ul id="taskList"></ul>
+    <script>
+        // Array to hold tasks
+        var tasks = [];
+
+        // Function to add a task to the list
+        function addTask() {
+            var input = document.getElementById("taskInput");
+            var value = input.value;
+            if (value === "") {
+                alert("Please enter a task");
+                return;
+            }
+            tasks.push({ text: value, done: false });
+            input.value = "";
+            renderTasks();
+        }
+
+        // Function to render the list of tasks
+        function renderTasks() {
+            var list = document.getElementById("taskList");
+            list.innerHTML = "";
+            for (var i = 0; i < tasks.length; i++) {
+                var task = tasks[i];
+                var li = document.createElement("li");
+                li.innerText = task.text;
+                li.setAttribute("data-index", i);
+                if (task.done) {
+                    li.classList.add("completed");
+                }
+                li.onclick = function() {
+                    var idx = this.getAttribute("data-index");
+                    toggleTask(idx);
+                };
+                list.appendChild(li);
+            }
+        }
+
+        // Function to toggle a task's completion status
+        function toggleTask(index) {
+            var idxNum = parseInt(index);
+            var task = tasks[idxNum];
+            task.done = !task.done;
+            renderTasks();
+        }
+
+        // Function to clear completed tasks
+        function clearCompleted() {
+            // Logic error: incorrectly filtering tasks
+            tasks = tasks.filter(function(task) {
+                return task.done = false; // assignment instead of comparison means all tasks removed
+            });
+            renderTasks();
+        }
+
+        // Dummy code for additional complexity
+        function countCompleted() {
+            var count = 0;
+            for (var j = 0; j <= tasks.length; j++) { // logic error: should use <, not <=
+                if (tasks[j] && tasks[j].done) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        // Dummy function with syntax and logic errors
+        function sampleFunction(a, b) {
+            var numA = parseFloat(a);
+            var numB = parseInt(b);
+            if (numA > numB) {
+                console.log("A is greater");
+            } else if (numA < numB) {
+                console.log("B is greater");
+            else { // syntax error: missing closing parenthesis
+                console.log("They are equal");
+            }
+            return numA + numB;
+        }
+
+        var res = sampleFunction("5.2", "3.1");
+        console.log("Sample function result: " + res);
+
+        // Additional loops to reach line count
+        var arr = [1, 2, 3, 4];
+        for (var p = 0; p < arr.length; p++) {
+            for (var q = 0; q < 2; q++) {
+                console.log("Loop " + p + q);
+            }
+        }
+
+        // Misleading while loop
+        var countDown = 5;
+        while (countDown > 0) {
+            console.log("Countdown: " + countDown);
+            countDown++; // logic error: increment instead of decrement
+            if (countDown > 20) break;
+        }
+
+        // Type coercion example
+        var strNum = "10";
+        if (strNum) { // logic error: non-empty string is truthy
+            console.log("String number is truthy");
+        }
+
+        // Closing script intentionally missing a brace for demonstration
+    </script>
+</body>
+</html>
